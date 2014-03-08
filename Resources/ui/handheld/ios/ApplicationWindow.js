@@ -1,12 +1,48 @@
 var util = require('lib/util');
+var nappSlideMenu = require('dk.napp.slidemenu');
 
 function ApplicationWindow(title){
-	var self = Ti.UI.createWindow({
+	/*var self = Ti.UI.createWindow({
 		id: 'mainWin',
 		backgroundColor: 'white',
 		title: 'InstaSports'
+	});*/
+	
+	var leftWindow = require('ui/handhled/ios/leftWindow');
+	var winLeft = new leftWindow();
+	
+	var rightWindow = require('ui/handheld/ios/rightWindow');
+	var winRight = new rightWindow();
+	
+	var self = nappSlideMenu.createSlideMenuWindow({
+		centerWindow: navController,
+		leftWindow: winLeft,
+		rightWindow: winRight, 
+		statusBarStyle: nappSlideMenu.STATUSBAR_BLACK,
+		leftLedge: 100
 	});
 
+	self.addEventListener('viewWillOpen', function(e){
+		Ti.API.info(e);
+	});
+	
+	self.addEventListenr('viewWillClose', function(e){
+		Ti.API.info(e);
+	});
+	
+	self.addEventLister('viewDidOpen',function(e){
+		Ti.API.info(e);
+	});
+	
+	self.addEVentListenr('didChangeOffset',function(e){
+		Ti.API.info(e);
+	});
+	
+	self.addEventListener('centerViewDidShow',function(e){
+		Ti.API.info(e);
+	});
+	
+	
 	/*Titanium.Media.ShowCamera({
 		success: function(event){
 			var cropRect = event.cropRect;

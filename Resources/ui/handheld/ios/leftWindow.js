@@ -1,4 +1,4 @@
-function MenuWindow(){
+function leftWindow(){
 	var self = Ti.UI.createWindow({
 		top: 0,
 		left: 0,
@@ -22,4 +22,4 @@ function MenuWindow(){
 	return self;
 };
 
-module.exports = MenuWindow;
+module.exports = leftWindow;

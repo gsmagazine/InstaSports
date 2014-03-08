@@ -5,7 +5,7 @@
     <version>1.0</version>
     <publisher>emiliano</publisher>
     <url>http://</url>
-    <description>not specified</description>
+    <description>InstaSports è l'applicazione per i veri sportivi.</description>
     <copyright>2014 by emiliano</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
@@ -39,6 +39,7 @@
         <module platform="android">facebook</module>
         <module platform="iphone">facebook</module>
         <module platform="iphone">dk.napp.social</module>
+        <module platform="iphone">dk.napp.slidemenu</module>
     </modules>
     <deployment-targets>
         <target device="android">true</target>
