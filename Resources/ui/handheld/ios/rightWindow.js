@@ -1,7 +1,9 @@
+var util = require('lib/util');
+
 function rightWindow(){
 	var self = Ti.UI.createWindow({
 		title: '',
-		top: 0,
+		top: util.theTop,
 		right: 0,
 		width: 200
 	});
