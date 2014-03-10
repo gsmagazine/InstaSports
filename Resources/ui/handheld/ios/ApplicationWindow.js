@@ -1,47 +1,43 @@
 var util = require('lib/util');
 var nappSlideMenu = require('dk.napp.slidemenu');
 
-function ApplicationWindow(title){
-	/*var self = Ti.UI.createWindow({
-		id: 'mainWin',
-		backgroundColor: 'white',
-		title: 'InstaSports'
-	});*/
-	
-	var leftWindow = require('ui/handhled/ios/leftWindow');
+function ApplicationWindow(){
+	var leftWindow = require('ui/handheld/ios/leftWindow');
 	var winLeft = new leftWindow();
 	
 	var rightWindow = require('ui/handheld/ios/rightWindow');
 	var winRight = new rightWindow();
 	
-	var self = nappSlideMenu.createSlideMenuWindow({
-		centerWindow: navController,
-		leftWindow: winLeft,
-		rightWindow: winRight, 
-		statusBarStyle: nappSlideMenu.STATUSBAR_BLACK,
-		leftLedge: 100
-	});
-
-	self.addEventListener('viewWillOpen', function(e){
-		Ti.API.info(e);
+	var self = Ti.UI.createWindow({
+		backgroundColor: 'white',
+		title: 'InstaSports',
+		tintColor: '#000000',
+		translucent: false,
+		barColor: '#336699'
 	});
 	
-	self.addEventListenr('viewWillClose', function(e){
-		Ti.API.info(e);
+	var leftBtn = Ti.UI.createButton({
+		title: 'Menu',
 	});
 	
-	self.addEventLister('viewDidOpen',function(e){
-		Ti.API.info(e);
+	leftBtn.addEventListener('click', function(){
+		mainWindow.toggleLeftView();
+		mainWindow.setCenterhiddenInteractivity('TouchEnabled');
 	});
 	
-	self.addEVentListenr('didChangeOffset',function(e){
-		Ti.API.info(e);
+	var rightBtn = Ti.UI.createButton({
+		title: 'Help'
 	});
 	
-	self.addEventListener('centerViewDidShow',function(e){
-		Ti.API.info(e);
+	rightBtn.addEventListener('click', function(){
+		mainWindow.toggleRightView();
+		mainWindow.setCenterhiddenInteractivity('TouchEnabled');
 	});
 	
+	self.leftNavButton = leftBtn;
+	self.rightNavButton = rightBtn;
+	
+	/* **** Codice Pagina ******** */
 	
 	/*Titanium.Media.ShowCamera({
 		success: function(event){
@@ -76,14 +72,14 @@ function ApplicationWindow(title){
 		mediaTypes:[Ti.Media.MEDIA_TYPE_PHOTO]
 	});*/
 	
-	var vwTitle = require('ui/handheld/ios/TitleWindow');
-	var title = new vwTitle();
+	//var vwTitle = require('ui/handheld/ios/TitleWindow');
+	//var title = new vwTitle();
 	
 	var imgView = Ti.UI.createImageView({
         width: Titanium.Platform.displayCaps.platformWidth,
-        height:Titanium.Platform.displayCaps.platformHeight - 64,
+        height:Titanium.Platform.displayCaps.platformHeight - 44,
         left:0.0,
-        top: util.theTop,
+        top: 0.0, //util.theTop,
         visible:true,
         zIndex: 1,
         image: '/images/RomaCastelSantAngelo.jpg'
@@ -117,24 +113,6 @@ function ApplicationWindow(title){
 	var scroll = require('/ui/handheld/ios/ScrollableWindow');
 	var vwOverlay = new scroll();
 	vwOverlay.views = [view1,view2,view3];
-	
-	if (Ti.Geolocation.locationServicesEnabled) {
-	    Ti.Geolocation.purpose = 'Get Current Location';
-	    Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
-	    Ti.Geolocation.distanceFilter = 10;
-	    Ti.Geolocation.preferredProvider = Ti.Geolocation.PROVIDER_GPS;
-	
-	    Ti.Geolocation.addEventListener('location', function(e) {
-	        if (e.error) {
-	            alert('Error: ' + e.error);
-	        } else {
-	            Ti.API.info(e.coords);
-	        }
-	    });
-	} else {
-	    alert('Please enable location services');
-	}
-	
 	
 	var lblHomeTeam = Ti.UI.createLabel({
 		bottom: 50,
@@ -172,11 +150,11 @@ function ApplicationWindow(title){
 	view1.add(lblHomeTeam);
 	view1.add(lblScore);
 	view1.add(lblStadio);
-	self.add(title);
+	//self.add(title);
 	self.add(imgView);
 	self.add(bgOpacity);
 	self.add(vwOverlay);
-	self.add(toolbar);
+	//self.add(toolbar);
 	
 	//var sUrl = "http://api.espn.com/v1/sports/basketball/nba/teams/2?apikey=:z6n9pwddn94msbhjn74ejjqk";
 	
@@ -185,8 +163,62 @@ function ApplicationWindow(title){
 		lblScore.text = "1" + " - " + "0";
 		lblStadio.text = "Roma - Stadio Olimpico";
 	});
+	
+	/* **** Codice Pagine ******** */
 		
-	return self;
+	var navController = Ti.UI.iOS.createNavigationWindow({
+		window: self
+	});
+		
+	var mainWindow = nappSlideMenu.createSlideMenuWindow({
+		centerWindow: navController,
+		leftWindow: winLeft,
+		rightWindow: winRight, 
+		statusBarStyle: nappSlideMenu.STATUSBAR_BLACK,
+		leftLedge: 120,
+		rightLedge: 120
+	});
+
+	mainWindow.add(toolbar);
+	
+	mainWindow.addEventListener('viewWillOpen', function(e){
+		Ti.API.info(e);
+	});
+	
+	mainWindow.addEventListener('viewWillClose', function(e){
+		Ti.API.info(e);
+	});
+	
+	mainWindow.addEventListener('viewDidOpen',function(e){
+		Ti.API.info(e);
+	});
+	
+	mainWindow.addEventListener('didChangeOffset',function(e){
+		Ti.API.info(e);
+	});
+	
+	mainWindow.addEventListener('centerViewDidShow',function(e){
+		Ti.API.info(e);
+	});
+	
+	if (Ti.Geolocation.locationServicesEnabled) {
+	    Ti.Geolocation.purpose = 'Get Current Location';
+	    Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
+	    Ti.Geolocation.distanceFilter = 10;
+	    Ti.Geolocation.preferredProvider = Ti.Geolocation.PROVIDER_GPS;
+	
+	    Ti.Geolocation.addEventListener('location', function(e) {
+	        if (e.error) {
+	            alert('Error: ' + e.error);
+	        } else {
+	            Ti.API.info(e.coords);
+	        }
+	    });
+	} else {
+	    alert('Please enable location services');
+	}
+			
+	return mainWindow;
 };
 
 module.exports = ApplicationWindow;

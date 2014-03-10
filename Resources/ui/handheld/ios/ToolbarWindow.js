@@ -23,6 +23,10 @@ function ToolbarWindow(){
 		title: 'Condividi'
 	});
 	
+	var other = Ti.UI.createButton({
+		title: '...'
+	});
+	
 	var toolbar = Ti.UI.iOS.createToolbar({
 		items : [send, flexSpace, camera, flexSpace, share],
 		button: 0,

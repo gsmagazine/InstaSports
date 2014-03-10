@@ -7,7 +7,7 @@ function OpacityWindow(){
 		visible: true,
 		left: 0.0,
 		opacity: 0.3,
-		bottom: 44 + util.theTop,
+		bottom: 44,
 		height: 100,
 		width: Ti.UI.FILL
 	});
